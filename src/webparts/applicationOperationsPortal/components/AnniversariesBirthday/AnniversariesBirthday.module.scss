@@ -1,0 +1,865 @@
+// AnniversariesBirthday.module.scss — anniversary list layout matches design mock
+
+// ===== Shared tokens =====
+$font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+
+// Anniversary panel (purple / lavender — matches design)
+$purple-700: #6b5ce7;
+$purple-600: #7b6cf0;
+$purple-500: #8b7cf6;
+$purple-050: #f5f4ff;
+$purple-100: #ebe9fe;
+$text-navy: #1a2744;
+$text-muted: #6b7280;
+$text-light: #9ca3af;
+$card-bg: #ffffff;
+$border-light: #e8eaf0;
+$page-bg: #f8f9ff;
+
+// Birthday panel keeps maroon brand
+$maroon-900: #5c0d1f;
+$maroon-800: #7a1430;
+$maroon-700: #8b1538;
+$maroon-600: #a11d42;
+$maroon-050: #fdf1f4;
+$maroon-border: #f0e2e6;
+
+$gold: #d4a017;
+$silver: #9aa3b2;
+$bronze: #c67b3c;
+
+.anniversariesBirthdaySection {
+  background: $page-bg;
+  padding: 0;
+  font-family: $font-family;
+  color: $text-navy;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.loadingState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 60px 0;
+  color: $text-muted;
+  font-size: 15px;
+}
+
+.loadingSpinner {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid $border-light;
+  border-top-color: $purple-600;
+  animation: spin 0.7s linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+  gap: 16px;
+  width: 100%;
+  box-sizing: border-box;
+
+  @media (max-width: 1100px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.panelCard {
+  position: relative;
+  background: $card-bg;
+  border: 1px solid $border-light;
+  border-radius: 16px;
+  padding: 24px 24px 18px;
+  box-shadow: 0 2px 8px rgba(26, 39, 68, 0.04);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.anniversaryPanel {
+  background: $card-bg;
+  border-color: $border-light;
+
+  .title {
+    color: $text-navy;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .subtitle {
+    color: $text-muted;
+    font-size: 13.5px;
+    max-width: 520px;
+  }
+
+  .summaryBanner {
+    background: $purple-050;
+    border: none;
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+
+  .summaryIcon {
+    background: $purple-600;
+    box-shadow: 0 6px 16px rgba($purple-600, 0.35);
+
+    svg {
+      stroke: #ffffff;
+    }
+  }
+
+  .summaryMonth {
+    color: $text-navy;
+    font-weight: 600;
+    font-size: 13px;
+  }
+
+  .summaryLabel {
+    color: $text-navy;
+    font-weight: 700;
+    font-size: 15px;
+  }
+
+  .summaryCount {
+    color: $purple-600;
+    font-size: 28px;
+    font-weight: 800;
+
+    span {
+      color: $text-muted;
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+
+  .monthSelectorWrap {
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    padding: 8px 32px 8px 12px;
+
+    &:hover {
+      box-shadow: 0 2px 8px rgba(26, 39, 68, 0.08);
+    }
+
+    &:focus-within {
+      border-color: $purple-500;
+      box-shadow: 0 0 0 3px rgba($purple-600, 0.15);
+    }
+  }
+
+  .monthSelectorIcon {
+    stroke: #3b82f6 !important;
+    color: #3b82f6;
+  }
+
+  .monthSelect {
+    color: $text-navy;
+    font-weight: 600;
+  }
+
+  .monthSelectorChevron {
+    color: $text-muted;
+  }
+
+  .navButton {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    border: 1px solid $border-light;
+    box-shadow: 0 2px 6px rgba(26, 39, 68, 0.06);
+
+    svg {
+      stroke: $text-navy;
+      width: 16px;
+      height: 16px;
+    }
+
+    &:hover:not(:disabled) {
+      background: $purple-050;
+      box-shadow: 0 4px 12px rgba($purple-600, 0.15);
+    }
+  }
+
+  .infoRow {
+    justify-content: flex-start;
+    color: $text-muted;
+  }
+
+  .rowIcon {
+    stroke: $text-muted;
+  }
+
+  .employeeName {
+    color: $text-navy;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: left;
+  }
+
+  .dot.active {
+    background: $purple-600;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    box-shadow: none;
+  }
+
+  .footer {
+    background: transparent;
+    color: $text-muted;
+    padding: 4px 0 0;
+  }
+
+  .footerIcon {
+    background: transparent;
+
+    svg {
+      stroke: #3b82f6;
+    }
+  }
+}
+
+.birthdayPanel {
+  .title {
+    color: $maroon-800;
+  }
+
+  .summaryBanner {
+    background: linear-gradient(135deg, $maroon-050, #fffaf9);
+    border: 1px solid rgba($maroon-700, 0.06);
+  }
+
+  .summaryIcon {
+    background: linear-gradient(135deg, $maroon-600, $maroon-800);
+    box-shadow: 0 6px 16px rgba($maroon-700, 0.32);
+  }
+
+  .summaryMonth,
+  .summaryCount {
+    color: $maroon-800;
+  }
+
+  .monthSelectorWrap {
+    border-color: $maroon-700;
+
+    svg {
+      stroke: $maroon-700;
+    }
+  }
+
+  .monthSelect {
+    color: $maroon-700;
+  }
+
+  .navButton svg {
+    stroke: $maroon-700;
+  }
+
+  .rowIcon {
+    stroke: $maroon-700;
+  }
+
+  .dot.active {
+    background: $maroon-700;
+    width: 18px;
+    border-radius: 3px;
+  }
+
+  .footer {
+    background: $maroon-050;
+    color: $maroon-800;
+  }
+
+  .footerIcon {
+    background: rgba($maroon-700, 0.1);
+
+    svg {
+      stroke: $maroon-700;
+    }
+  }
+}
+
+.panelBody {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.panelHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.panelTitleWrap {
+  flex: 1;
+  min-width: 200px;
+}
+
+.title {
+  margin: 0 0 6px;
+  font-size: 18.5px;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 13px;
+  color: $text-muted;
+  line-height: 1.45;
+}
+
+.monthSelectorWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  flex-shrink: 0;
+  min-width: 150px;
+}
+
+.monthSelectorIcon {
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  margin-right: 8px;
+  pointer-events: none;
+}
+
+.monthSelectorChevron {
+  width: 14px;
+  height: 14px;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.monthSelect {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 13px;
+  font-family: $font-family;
+  cursor: pointer;
+  width: 100%;
+  padding-right: 4px;
+}
+
+.summaryBanner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.summaryIcon {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  svg {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+.summaryText {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.summaryMonth {
+  font-size: 14px;
+}
+
+.summaryLabel {
+  font-size: 13px;
+  color: $text-muted;
+}
+
+.summaryCount {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.contentRow {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.carouselWrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.navButton {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 50%;
+  border: 1px solid $border-light;
+  background: $card-bg;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s ease, box-shadow 0.15s ease;
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  &:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $purple-500;
+    outline-offset: 2px;
+  }
+}
+
+.rowIcon {
+  width: 14px;
+  height: 14px;
+  min-width: 14px;
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+
+.infoRow {
+  display: flex;
+  align-items: center;
+  font-size: 12.5px;
+  margin-top: 3px;
+}
+
+// ============================================================
+// Anniversary list rows (design mock)
+// ============================================================
+.anniversaryList {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  flex: 1;
+  min-width: 0;
+}
+
+.anniversaryRow {
+  display: grid;
+  grid-template-columns: 52px minmax(140px, 1.2fr) 100px minmax(120px, 0.9fr);
+  align-items: center;
+  gap: 12px 16px;
+  padding: 16px 8px;
+  border-bottom: 1px solid #eef0f5;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  @media (max-width: 700px) {
+    grid-template-columns: 44px 1fr;
+    grid-template-areas:
+      "medal employee"
+      "years years"
+      "joined joined";
+    gap: 10px;
+  }
+}
+
+.rowMedal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 700px) {
+    grid-area: medal;
+  }
+}
+
+.rowEmployee {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+
+  @media (max-width: 700px) {
+    grid-area: employee;
+  }
+}
+
+.rowYears {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 700px) {
+    grid-area: years;
+    justify-content: flex-start;
+  }
+}
+
+.rowJoined {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  @media (max-width: 700px) {
+    grid-area: joined;
+    justify-content: flex-start;
+  }
+}
+
+.medalIcon {
+  width: 42px;
+  height: 52px;
+  min-width: 42px;
+  display: block;
+}
+
+.laurelWrap {
+  position: relative;
+  width: 88px;
+  height: 64px;
+  min-width: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.laurelImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+  pointer-events: none;
+}
+
+.yearsCenter {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+  padding-top: 2px;
+}
+
+.yearsNumber {
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.yearsLabel {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  margin-top: 1px;
+}
+
+.employeeName {
+  margin: 0 0 4px;
+  line-height: 1.25;
+}
+
+.joinedOn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  color: $text-muted;
+  white-space: nowrap;
+
+  svg {
+    width: 14px;
+    height: 14px;
+    min-width: 14px;
+    stroke: $text-muted;
+    margin-right: 0;
+  }
+}
+
+// ============================================================
+// Birthday cards (unchanged layout)
+// ============================================================
+.birthdayGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  width: 100%;
+  flex: 1;
+  padding: 4px 0;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.birthdayCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: $card-bg;
+  border: 1px solid $maroon-border;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba($maroon-900, 0.04);
+  padding-top: 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    border-color: $maroon-700;
+    box-shadow: 0 10px 24px -6px rgba($maroon-900, 0.16);
+    transform: translateY(-3px);
+  }
+
+  .employeeName {
+    text-align: center;
+    color: #2a2027;
+  }
+
+  .infoRow {
+    justify-content: center;
+  }
+}
+
+.cakeHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.cakeCandlesIcon {
+  width: 46px;
+  height: 40px;
+  color: $maroon-700;
+}
+
+.dateCenter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.dateDay {
+  font-size: 14px;
+  font-weight: 700;
+  color: $maroon-700;
+}
+
+.dateWeekday {
+  font-size: 10px;
+  color: $text-muted;
+}
+
+.cardDivider {
+  width: 85%;
+  height: 1px;
+  background: $maroon-border;
+}
+
+.cardBody {
+  padding: 12px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.cardFooter {
+  padding: 8px 12px;
+  background: $maroon-050;
+  border-top: 1px solid $maroon-border;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.happyBirthdayTag {
+  font-size: 11px;
+  font-weight: 700;
+  color: $maroon-700;
+}
+
+.errorBanner {
+  background: #fce3e9;
+  color: #7a1430;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 12.5px;
+  margin-bottom: 12px;
+  border: 1px solid #f5c6cb;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+  padding: 44px 16px;
+  color: $text-muted;
+  font-size: 13px;
+  background: $purple-050;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.emptyStateIcon {
+  width: 30px;
+  height: 30px;
+  color: $text-light;
+}
+
+.bottomStack {
+  margin-top: auto;
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d1d5db;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: #9ca3af;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $purple-500;
+    outline-offset: 2px;
+  }
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12.5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.footerIcon {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .panelCard {
+    padding: 18px 16px 16px;
+  }
+
+  .panelHeader {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .anniversaryPanel .title {
+    font-size: 18px;
+  }
+
+  .summaryBanner {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .panelCard {
+    padding: 14px 12px;
+  }
+
+  .laurelWrap {
+    width: 72px;
+    height: 52px;
+    min-width: 72px;
+  }
+
+  .yearsNumber {
+    font-size: 16px;
+  }
+
+  .medalIcon {
+    width: 36px;
+    height: 44px;
+    min-width: 36px;
+  }
+}
